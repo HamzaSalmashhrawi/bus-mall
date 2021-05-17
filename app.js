@@ -12,7 +12,7 @@ let centerImgElement = document.getElementById('centerimg');
 let rightImgElement = document.getElementById('rightimg');
 
 // global count the user clicks
-let maxUserClicks = 5;
+let maxUserClicks = 25;
 let userClicksCounter = 0;
 
 // global array
@@ -89,16 +89,34 @@ centerImgElement.addEventListener('click', userClick);
 rightImgElement.addEventListener('click', userClick);
 
 function userClick(clickEvent) {
+
     userClicksCounter++;
 
-    if (userClicksCounter < maxUserClicks) {
+    if (userClicksCounter <= maxUserClicks) {
+
         if (clickEvent.target.id === 'leftimg') {
-            proDucts[leftImgIndex].votes++;
+
+            proDucts[leftImgIndex].votes = proDucts[leftImgIndex].votes + 1;
         } else {
-            proDucts[rightImgIndex].votes++;
-            console.log('votes', proDucts[rightImgIndex].votes++);
-        } 
+            proDucts[rightImgIndex].votes = proDucts[rightImgIndex].votes + 1;
+           
+        }
         renderThreeImages();
+
+    } else {
+        leftImgElement.removeEventListener('click', userClick);
+        centerImgElement.removeEventListener('click', userClick);
+        rightImgElement.removeEventListener('click', userClick);
+
+        // create list by getting the element 
+        let list = document.getElementById('idVotes')
+        let liElement;
+        for (let i = 0; i < proDucts.length; i++) {
+          liElement = document.createElement('li');
+          list.appendChild(liElement);
+          liElement.textContent = `${proDucts[i].productName} you voted it ${proDucts[i].votes} times`
+            
+        }
     }
 }
 

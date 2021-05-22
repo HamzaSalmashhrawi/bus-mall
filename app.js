@@ -12,7 +12,7 @@ let centerImgElement = document.getElementById('centerimg');
 let rightImgElement = document.getElementById('rightimg');
 
 // global count the user clicks
-let maxUserClicks = 5;
+let maxUserClicks = 10;
 let userClicksCounter = 0;
 
 // global array
@@ -166,11 +166,11 @@ function userClick(clickEvent) {
                     label: '# of Your Votes',
                     data: productVotes,
                     backgroundColor:
-                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(99, 46, 84, 0.7)',
 
 
                     borderColor:
-                        'rgba(255, 99, 132, 1)',
+                        'rgba(99, 46, 84, 1)',
 
 
                     borderWidth: 1

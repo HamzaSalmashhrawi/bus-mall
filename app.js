@@ -60,28 +60,33 @@ function imgRanomizer() {
     return Math.floor(Math.random() * proDucts.length);
 }
 
+// global array to prevent the image shown 2 times in  a row 
+let firstImages = [];
+
+firstImages = [leftImgIndex, centerImgIndex, rightImgIndex];
+
 // function to render the images 
 function renderThreeImages() {
     leftImgIndex = imgRanomizer();
     centerImgIndex = imgRanomizer();
     rightImgIndex = imgRanomizer();
 
-    while (leftImgIndex === rightImgIndex) {
-        rightImgIndex = imgRanomizer();
-    }
-    while (leftImgIndex === centerImgIndex) {
+    do {
+        leftImgIndex = imgRanomizer();
         centerImgIndex = imgRanomizer();
-    }
-    while (centerImgIndex === rightImgIndex) {
         rightImgIndex = imgRanomizer();
     }
-    // console.log(leftImgIndex);
-    // console.log(centerImgIndex);
-    // console.log(rightImgIndex);
+    while (
+        leftImgIndex === rightImgIndex ||
+        leftImgIndex === centerImgIndex ||
+        centerImgIndex === rightImgIndex ||
+        firstImages.includes(leftImgIndex) ||
+        firstImages.includes(centerImgIndex) ||
+        firstImages.includes(rightImgIndex)
+    )
 
-    // console.log(proDucts[leftImgIndex]);
-    // console.log(proDucts[centerImgIndex]);
-    // console.log(proDucts[rightImgIndex]);
+    firstImages = [leftImgIndex, centerImgIndex, rightImgIndex];
+
 
     // Src attribute
     leftImgElement.src = proDucts[leftImgIndex].path;
@@ -96,7 +101,7 @@ renderThreeImages();
 
 
 // event listen
-images.addEventListener('click',userClick);
+images.addEventListener('click', userClick);
 
 
 function userClick(clickEvent) {
@@ -108,6 +113,8 @@ function userClick(clickEvent) {
         if (clickEvent.target.id === 'leftimg') {
 
             proDucts[leftImgIndex].votes = proDucts[leftImgIndex].votes + 1;
+        } else if (clickEvent.target.id === 'centerImg') {
+            proDucts[centerImgIndex].votes = proDucts[centerImgIndex].votes + 1;
         } else {
             proDucts[rightImgIndex].votes = proDucts[rightImgIndex].votes + 1;
 
@@ -115,8 +122,8 @@ function userClick(clickEvent) {
         renderThreeImages();
 
     } else {
-        images.removeEventListener('click',userClick);
-      
+        images.removeEventListener('click', userClick);
+
         // create list by getting the element 
         let list = document.getElementById('idVotes')
         let liElement;
@@ -135,31 +142,31 @@ function userClick(clickEvent) {
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: imgName , 
-                datasets: [ {
-                        label: '# of Your Votes',
-                        data: productVotes,
-                        backgroundColor: 
-                            'rgba(255, 99, 132, 0.7)',
+                labels: imgName,
+                datasets: [{
+                    label: '# of Your Votes',
+                    data: productVotes,
+                    backgroundColor:
+                        'rgba(255, 99, 132, 0.7)',
 
-                        
-                        borderColor: 
-                            'rgba(255, 99, 132, 1)',
 
-                        
-                        borderWidth: 1
-                    },
-                    {
-                        label: '# of shown',
-                        data: productShown,
-                        backgroundColor: 
-                            'rgba(54, 162, 235, 0.7)',
-                        
-                        borderColor: 
-                            'rgba(54, 162, 235, 1)',
-                        
-                        borderWidth: 1
-                    }
+                    borderColor:
+                        'rgba(255, 99, 132, 1)',
+
+
+                    borderWidth: 1
+                },
+                {
+                    label: '# of shown',
+                    data: productShown,
+                    backgroundColor:
+                        'rgba(54, 162, 235, 0.7)',
+
+                    borderColor:
+                        'rgba(54, 162, 235, 1)',
+
+                    borderWidth: 1
+                }
                 ]
             },
             options: {

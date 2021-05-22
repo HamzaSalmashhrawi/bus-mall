@@ -12,7 +12,7 @@ let centerImgElement = document.getElementById('centerimg');
 let rightImgElement = document.getElementById('rightimg');
 
 // global count the user clicks
-let maxUserClicks = 10;
+let maxUserClicks = 25;
 let userClicksCounter = 0;
 
 // global array
@@ -59,10 +59,13 @@ new Weirdproductimages('bathroom', 'img/bathroom.jpg');
 new Weirdproductimages('boots', 'img/boots.jpg');
 new Weirdproductimages('breakfast', 'img/breakfast.jpg');
 new Weirdproductimages('bubblegum', 'img/bubblegum.jpg');
+new Weirdproductimages('chair', 'img/chair.jpg');
 new Weirdproductimages('cthulhu', 'img/cthulhu.jpg');
 new Weirdproductimages('dog duck', 'img/dog-duck.jpg');
 new Weirdproductimages('dragon', 'img/dragon.jpg');
 new Weirdproductimages('pen', 'img/pen.jpg');
+new Weirdproductimages('pet sweep', 'img/pet-sweep.jpg');
+new Weirdproductimages('scissors', 'img/scissors.jpg');
 new Weirdproductimages('shark', 'img/shark.jpg');
 new Weirdproductimages('sweep', 'img/sweep.png');
 new Weirdproductimages('tautaun', 'img/tauntaun.jpg');
@@ -155,6 +158,7 @@ function userClick(clickEvent) {
 
         chart();
     }
+    // function to create a chart
     function chart() {
         let ctx = document.getElementById('resultChart').getContext('2d');
         let name = [];

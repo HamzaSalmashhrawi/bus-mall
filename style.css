@@ -14,13 +14,20 @@ main img {
   }
 
 h1 {
+    color: white;
     text-align: center;
-    font-family: cursive;
+    font-size: 40px;
+    text-shadow: 4px 4px 8px rgba(99, 46, 84) , 0 0 12px rgb(243, 223, 223);
+    font-family: 'Train One', cursive;
+    padding-bottom: 50px;
 }
 
 h2{
     text-align: center;
-    font-family: cursive;
+    background-color:rgba(99, 46, 84) ;
+    font-family: 'Train One', cursive;
+    padding-bottom: 25px;
+    border-radius: 9px;
 }
 
 

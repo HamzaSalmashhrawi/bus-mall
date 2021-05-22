@@ -12,7 +12,7 @@ let centerImgElement = document.getElementById('centerimg');
 let rightImgElement = document.getElementById('rightimg');
 
 // global count the user clicks
-let maxUserClicks = 25;
+let maxUserClicks = 5;
 let userClicksCounter = 0;
 
 // global array
@@ -27,15 +27,31 @@ let imgName = [];
 function Weirdproductimages(name, path) {
     this.name = name;
     this.path = path;
-
     this.timeShown = 0; // num of times the image has been displayed 
 
     this.votes = 0;   // num of times the user clicked the image 
 
     imgName.push(this.name); // pushing to the global array
     proDucts.push(this);
+
+    //
+
 }
 
+// setting local storage function 
+function saveToLocalStorage() {
+    let saVed = JSON.stringify(proDucts);
+    localStorage.setItem('allProduct', saVed);
+}
+
+// getting local storage function 
+function getLocalStorage() {
+    let strIngs = localStorage.getItem('allProduct');
+    let backToNormal = JSON.parse(strIngs);
+
+    if (backToNormal !==null)
+    proDucts = backToNormal ;
+}
 
 new Weirdproductimages('bag', 'img/bag.jpg');
 new Weirdproductimages('banana', 'img/banana.jpg');
@@ -134,6 +150,9 @@ function userClick(clickEvent) {
             productVotes.push(proDucts[i].votes);
             productShown.push(proDucts[i].timeShown);
         }
+        // calling the Local storage add to it each time clicking 
+        saveToLocalStorage();
+
         chart();
     }
     function chart() {
@@ -179,3 +198,5 @@ function userClick(clickEvent) {
         });
     }
 }
+
+getLocalStorage();

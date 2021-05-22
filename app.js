@@ -12,20 +12,27 @@ let centerImgElement = document.getElementById('centerimg');
 let rightImgElement = document.getElementById('rightimg');
 
 // global count the user clicks
-let maxUserClicks = 4;
+let maxUserClicks = 25;
 let userClicksCounter = 0;
 
 // global array
 let proDucts = [];
+let productVotes = [];
+let productShown = [];
 
-function Weirdproductimages(productName, path) {
-    this.productName = productName;
+// global array for products name 
+
+let imgName = [];
+
+function Weirdproductimages(name, path) {
+    this.name = name;
     this.path = path;
-    
+
     this.timeShown = 0; // num of times the image has been displayed 
-   
+
     this.votes = 0;   // num of times the user clicked the image 
 
+    imgName.push(this.name); // pushing to the global array
     proDucts.push(this);
 }
 
@@ -89,10 +96,8 @@ renderThreeImages();
 
 
 // event listen
+images.addEventListener('click',userClick);
 
-leftImgElement.addEventListener('click', userClick);
-centerImgElement.addEventListener('click', userClick);
-rightImgElement.addEventListener('click', userClick);
 
 function userClick(clickEvent) {
 
@@ -105,24 +110,65 @@ function userClick(clickEvent) {
             proDucts[leftImgIndex].votes = proDucts[leftImgIndex].votes + 1;
         } else {
             proDucts[rightImgIndex].votes = proDucts[rightImgIndex].votes + 1;
-           
+
         }
         renderThreeImages();
 
     } else {
-        leftImgElement.removeEventListener('click', userClick);
-        centerImgElement.removeEventListener('click', userClick);
-        rightImgElement.removeEventListener('click', userClick);
-
+        images.removeEventListener('click',userClick);
+      
         // create list by getting the element 
         let list = document.getElementById('idVotes')
         let liElement;
         for (let i = 0; i < proDucts.length; i++) {
-          liElement = document.createElement('li');
-          list.appendChild(liElement);
-          liElement.textContent = `${proDucts[i].productName} you voted it ${proDucts[i].votes} times, and you have viewed it ${proDucts[i].timeShown}`
-            
+            liElement = document.createElement('li');
+            list.appendChild(liElement);
+            liElement.textContent = `${proDucts[i].name} you voted it ${proDucts[i].votes} times, and you have viewed it ${proDucts[i].timeShown}`
+            productVotes.push(proDucts[i].votes);
+            productShown.push(proDucts[i].timeShown);
         }
+        chart();
+    }
+    function chart() {
+        let ctx = document.getElementById('resultChart').getContext('2d');
+        let name = [];
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: imgName , 
+                datasets: [ {
+                        label: '# of Your Votes',
+                        data: productVotes,
+                        backgroundColor: 
+                            'rgba(255, 99, 132, 0.7)',
+
+                        
+                        borderColor: 
+                            'rgba(255, 99, 132, 1)',
+
+                        
+                        borderWidth: 1
+                    },
+                    {
+                        label: '# of shown',
+                        data: productShown,
+                        backgroundColor: 
+                            'rgba(54, 162, 235, 0.7)',
+                        
+                        borderColor: 
+                            'rgba(54, 162, 235, 1)',
+                        
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     }
 }
-
